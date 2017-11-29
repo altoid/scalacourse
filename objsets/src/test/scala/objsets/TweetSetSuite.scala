@@ -27,43 +27,71 @@ class TweetSetSuite extends FunSuite {
 
   def size(set: TweetSet): Int = asSet(set).size
 
-  test("filter: on empty set") {
+  test("futzing with contains") {
+    val t1 = new Tweet("u1", "aoeu", 11)
+    val t2 = new Tweet("u2", "aeouaoeu", 11)
+    val t3 = new Tweet("u3", "aoaeoueu", 11)
+
+    val s1 = new Empty
+    val s2 = s1.incl(t1)
+
+    assert(s2.contains(t1))
+    assert(!s2.contains(t2))
+    assert(!s1.contains(t1))
+  }
+
+  test("build-a-bear") {
+    val t5 = new Tweet("t5", "t5", 11)
+    val t9 = new Tweet("t9", "t9", 11)
+    val t8 = new Tweet("t8", "t8", 11)
+    val t4 = new Tweet("t4", "t4", 11)
+
+    val e = new Empty
+    val s1 = e.incl(t5)
+    val s2 = s1.incl(t4)
+    val s3 = s2.incl(t9)
+    val s4 = s3.incl(t8)
+
+    s4.foreach(t => println(t))
+  }
+
+  ignore("filter: on empty set") {
     new TestSets {
       assert(size(set1.filter(tw => tw.user == "a")) === 0)
     }
   }
 
-  test("filter: a on set5") {
+  ignore("filter: a on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.user == "a")) === 1)
     }
   }
 
-  test("filter: 20 on set5") {
+  ignore("filter: 20 on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.retweets == 20)) === 2)
     }
   }
 
-  test("union: set4c and set4d") {
+  ignore("union: set4c and set4d") {
     new TestSets {
       assert(size(set4c.union(set4d)) === 4)
     }
   }
 
-  test("union: with empty set (1)") {
+  ignore("union: with empty set (1)") {
     new TestSets {
       assert(size(set5.union(set1)) === 4)
     }
   }
 
-  test("union: with empty set (2)") {
+  ignore("union: with empty set (2)") {
     new TestSets {
       assert(size(set1.union(set5)) === 4)
     }
   }
 
-  test("descending: set5") {
+  ignore("descending: set5") {
     new TestSets {
       val trends = set5.descendingByRetweet
       assert(!trends.isEmpty)
