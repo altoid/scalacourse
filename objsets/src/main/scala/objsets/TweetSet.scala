@@ -67,7 +67,7 @@ abstract class TweetSet {
     * Question: Should we implment this method here, or should it remain abstract
     * and be implemented in the subclasses?
     */
-  def mostRetweeted: Tweet = ???
+  def mostRetweeted: Tweet
 
   /**
     * Returns a list containing all tweets of this set, sorted by retweet count
@@ -124,10 +124,12 @@ class Empty extends TweetSet {
   def foreach(f: Tweet => Unit): Unit = ()
 
   def union(that: TweetSet): TweetSet = that
+
+  def mostRetweeted: Tweet = throw new NoSuchElementException("mostRetweeted:  empty set")
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
-  println(getClass().getName() + "@"+ Integer.toHexString(hashCode()))
+  // println(getClass().getName() + "@"+ Integer.toHexString(hashCode()))
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
     // don't use foreach
@@ -167,6 +169,11 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   def union(that: TweetSet): TweetSet = {
     left.union(right.union(that.incl(elem)))
   }
+
+  // beware, the sets are sorted on text, not on retweets
+  def mostRetweeted: Tweet = ???
+
+  def mostRetweetedHelper: Tweet = ???
 }
 
 trait TweetList {

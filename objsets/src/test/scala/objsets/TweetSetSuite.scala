@@ -20,12 +20,12 @@ class TweetSetSuite extends FunSuite {
   }
 
   trait BunchaTweets {
-    val t1 = new Tweet("t1", "t1", 11)
-    val t2 = new Tweet("t2", "t2", 11)
-    val t3 = new Tweet("t3", "t3", 11)
-    val t4 = new Tweet("t4", "t4", 11)
-    val t5 = new Tweet("t5", "t5", 11)
-    val t6 = new Tweet("t6", "t6", 11)
+    val t1 = new Tweet("t1", "t1", 1)
+    val t2 = new Tweet("t2", "t2", 2)
+    val t3 = new Tweet("t3", "t3", 3)
+    val t4 = new Tweet("t4", "t4", 4)
+    val t5 = new Tweet("t5", "t5", 5)
+    val t6 = new Tweet("t6", "t6", 6)
 
     val e = new Empty
 
@@ -47,6 +47,22 @@ class TweetSetSuite extends FunSuite {
 
   def size(set: TweetSet): Int = asSet(set).size
 
+  test("most retweeted - empty set") {
+    val e = new Empty
+
+    intercept[NoSuchElementException] {
+      val t = e.mostRetweeted
+    }
+  }
+
+  test("most retweeted - nonempty set") {
+    new BunchaTweets {
+      val s = e.incl(t3).incl(t4).incl(t2).incl(t6).incl(t5).incl(t1)
+
+      assert(size(s) === 6)
+    }
+  }
+
   ignore("futzing with contains") {
     val t1 = new Tweet("u1", "aoeu", 11)
     val t2 = new Tweet("u2", "aeouaoeu", 11)
@@ -62,9 +78,7 @@ class TweetSetSuite extends FunSuite {
 
   ignore("s1_u_s1") {
     new BunchaTweets {
-      println(">>>>>>>>>>> 1")
       val s1_u_s1 = s1.union(s1)
-      println("<<<<<<<<<<< 1")
       assert(size(s1_u_s1) === 1)
       assert(s1_u_s1.contains(t1))
     }
@@ -72,20 +86,16 @@ class TweetSetSuite extends FunSuite {
 
   ignore("s1_u_s4") {
     new BunchaTweets {
-      println(">>>>>>>>>>> 4")
       val s1_u_s4 = s1.union(s4)
-      println("<<<<<<<<<<< 4")
       assert(size(s1_u_s4) === 2)
       assert(s1_u_s4.contains(t1))
       assert(s1_u_s4.contains(t4))
     }
   }
 
-  test("s123_u_s456") {
+  ignore("s123_u_s456") {
     new BunchaTweets {
-      println(">>>>>>>>>>> s123_u_s456")
       val s123_u_s456 = s123.union(s456)
-      println("<<<<<<<<<<< s123_u_s456")
       assert(size(s123_u_s456) === 6)
       assert(s123_u_s456.contains(t1))
       assert(s123_u_s456.contains(t2))
