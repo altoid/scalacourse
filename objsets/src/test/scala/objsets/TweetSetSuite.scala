@@ -61,8 +61,9 @@ class TweetSetSuite extends FunSuite {
 
       assert(size(s) === 6)
 
-      val mrt = s.mostRetweeted
-      assert(mrt == t6)
+      assert(s.mostRetweeted == t6)
+      assert(s12.mostRetweeted == t2)
+      assert(s45.mostRetweeted == t5)
     }
   }
 
