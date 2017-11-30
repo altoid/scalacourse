@@ -27,7 +27,7 @@ class TweetSetSuite extends FunSuite {
 
   def size(set: TweetSet): Int = asSet(set).size
 
-  test("futzing with contains") {
+  ignore("futzing with contains") {
     val t1 = new Tweet("u1", "aoeu", 11)
     val t2 = new Tweet("u2", "aeouaoeu", 11)
     val t3 = new Tweet("u3", "aoaeoueu", 11)
@@ -40,7 +40,7 @@ class TweetSetSuite extends FunSuite {
     assert(!s1.contains(t1))
   }
 
-  test("build-a-bear") {
+  ignore("build-a-bear") {
     val t5 = new Tweet("t5", "t5", 11)
     val t9 = new Tweet("t9", "t9", 11)
     val t8 = new Tweet("t8", "t8", 11)
@@ -52,22 +52,61 @@ class TweetSetSuite extends FunSuite {
     val s3 = s2.incl(t9)
     val s4 = s3.incl(t8)
 
-    s4.foreach(t => println(t))
+//    s4.foreach(t => println(t))
+    assert(size(s4) === 4)
+
+    val s5 = s4.incl(t4)
+    assert(size(s5) === 4)
   }
 
-  ignore("filter: on empty set") {
+  test("filterAcc") {
+    new TestSets {
+      val e = new Empty
+
+      val always: Tweet => Boolean = t => true
+      val never: Tweet => Boolean = t => false
+
+      val f = e.filter(always)
+      assert(size(f) === 0)
+
+      val one = e.incl(c)
+      val gone = one.filter(never)
+
+      assert(size(gone) === 0)
+
+      val twin = one.filter(always)
+
+      assert(size(twin) === 1)
+      assert(twin.contains(c))
+    }
+  }
+
+  test("nontrivial predicate") {
+    new TestSets {
+      // set5 has a, b, c, and d.
+      val under_10_retweets: Tweet => Boolean = t => t.retweets < 10
+
+      val lotsa = set5.filter(under_10_retweets)
+
+      assert(size(lotsa) == 2)
+      assert(lotsa.contains(c))
+      assert(lotsa.contains(d))
+    }
+  }
+
+  test("filter: on empty set") {
     new TestSets {
       assert(size(set1.filter(tw => tw.user == "a")) === 0)
     }
   }
 
-  ignore("filter: a on set5") {
+  test("filter: a on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.user == "a")) === 1)
     }
   }
 
-  ignore("filter: 20 on set5") {
+  test("filter: 20 on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.retweets == 20)) === 2)
     }
