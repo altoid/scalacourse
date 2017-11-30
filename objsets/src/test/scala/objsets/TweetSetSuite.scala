@@ -19,6 +19,26 @@ class TweetSetSuite extends FunSuite {
     val set5 = set4c.incl(d)
   }
 
+  trait BunchaTweets {
+    val t1 = new Tweet("t1", "t1", 11)
+    val t2 = new Tweet("t2", "t2", 11)
+    val t3 = new Tweet("t3", "t3", 11)
+    val t4 = new Tweet("t4", "t4", 11)
+    val t5 = new Tweet("t5", "t5", 11)
+    val t6 = new Tweet("t6", "t6", 11)
+
+    val e = new Empty
+
+    val s1 = e.incl(t1)
+    val s12 = s1.incl(t2)
+    val s123 = s12.incl(t3)
+
+    val s4 = e.incl(t4)
+    val s45 = s4.incl(t5)
+    val s456 = s45.incl(t6)
+
+  }
+
   def asSet(tweets: TweetSet): Set[Tweet] = {
     var res = Set[Tweet]()
     tweets.foreach(res += _)
@@ -40,6 +60,42 @@ class TweetSetSuite extends FunSuite {
     assert(!s1.contains(t1))
   }
 
+  ignore("s1_u_s1") {
+    new BunchaTweets {
+      println(">>>>>>>>>>> 1")
+      val s1_u_s1 = s1.union(s1)
+      println("<<<<<<<<<<< 1")
+      assert(size(s1_u_s1) === 1)
+      assert(s1_u_s1.contains(t1))
+    }
+  }
+
+  ignore("s1_u_s4") {
+    new BunchaTweets {
+      println(">>>>>>>>>>> 4")
+      val s1_u_s4 = s1.union(s4)
+      println("<<<<<<<<<<< 4")
+      assert(size(s1_u_s4) === 2)
+      assert(s1_u_s4.contains(t1))
+      assert(s1_u_s4.contains(t4))
+    }
+  }
+
+  test("s123_u_s456") {
+    new BunchaTweets {
+      println(">>>>>>>>>>> s123_u_s456")
+      val s123_u_s456 = s123.union(s456)
+      println("<<<<<<<<<<< s123_u_s456")
+      assert(size(s123_u_s456) === 6)
+      assert(s123_u_s456.contains(t1))
+      assert(s123_u_s456.contains(t2))
+      assert(s123_u_s456.contains(t3))
+      assert(s123_u_s456.contains(t4))
+      assert(s123_u_s456.contains(t5))
+      assert(s123_u_s456.contains(t6))
+    }
+  }
+
   ignore("build-a-bear") {
     val t5 = new Tweet("t5", "t5", 11)
     val t9 = new Tweet("t9", "t9", 11)
@@ -59,7 +115,7 @@ class TweetSetSuite extends FunSuite {
     assert(size(s5) === 4)
   }
 
-  test("filterAcc") {
+  ignore("filterAcc") {
     new TestSets {
       val e = new Empty
 
@@ -81,7 +137,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("nontrivial predicate") {
+  ignore("filter, nontrivial predicate") {
     new TestSets {
       // set5 has a, b, c, and d.
       val under_10_retweets: Tweet => Boolean = t => t.retweets < 10
@@ -94,19 +150,19 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("filter: on empty set") {
+  ignore("filter: on empty set") {
     new TestSets {
       assert(size(set1.filter(tw => tw.user == "a")) === 0)
     }
   }
 
-  test("filter: a on set5") {
+  ignore("filter: a on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.user == "a")) === 1)
     }
   }
 
-  test("filter: 20 on set5") {
+  ignore("filter: 20 on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.retweets == 20)) === 2)
     }

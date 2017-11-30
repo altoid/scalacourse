@@ -53,10 +53,10 @@ abstract class TweetSet {
   /**
     * Returns a new `TweetSet` that is the union of `TweetSet`s `this` and `that`.
     *
-    * Question: Should we implment this method here, or should it remain abstract
+    * Question: Should we implement this method here, or should it remain abstract
     * and be implemented in the subclasses?
     */
-  def union(that: TweetSet): TweetSet = ???
+  def union(that: TweetSet): TweetSet
 
   /**
     * Returns the tweet from this set which has the greatest retweet count.
@@ -122,10 +122,12 @@ class Empty extends TweetSet {
   def remove(tweet: Tweet): TweetSet = this
 
   def foreach(f: Tweet => Unit): Unit = ()
+
+  def union(that: TweetSet): TweetSet = that
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
-  // println(getClass().getName() + "@"+ Integer.toHexString(hashCode()))
+  println(getClass().getName() + "@"+ Integer.toHexString(hashCode()))
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
     // don't use foreach
@@ -160,6 +162,10 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     f(elem)
     left.foreach(f)
     right.foreach(f)
+  }
+
+  def union(that: TweetSet): TweetSet = {
+    left.union(right.union(that.incl(elem)))
   }
 }
 
