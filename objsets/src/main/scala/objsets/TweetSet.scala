@@ -170,10 +170,26 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
     left.union(right.union(that.incl(elem)))
   }
 
-  // beware, the sets are sorted on text, not on retweets
-  def mostRetweeted: Tweet = ???
+  // beware, the sets are sorted on text, not on retweets, so we have to scan the whole set.
+  def mostRetweeted: Tweet = {
+    var l = try {
+      left.mostRetweeted
+    } catch {
+      case e: NoSuchElementException => elem
+    }
 
-  def mostRetweetedHelper: Tweet = ???
+    var r = try {
+      right.mostRetweeted
+    } catch {
+      case e: NoSuchElementException => elem
+    }
+
+    if (elem.retweets > l.retweets) {
+      if (elem.retweets > r.retweets) elem
+      else r
+    } else if (l.retweets > r.retweets) l
+    else r
+  }
 }
 
 trait TweetList {

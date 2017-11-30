@@ -60,9 +60,18 @@ class TweetSetSuite extends FunSuite {
       val s = e.incl(t3).incl(t4).incl(t2).incl(t6).incl(t5).incl(t1)
 
       assert(size(s) === 6)
+
+      val mrt = s.mostRetweeted
+      assert(mrt == t6)
     }
   }
 
+  test("most retweeted - singleton") {
+    new BunchaTweets {
+      val mrt = s1.mostRetweeted
+      assert(mrt == t1)
+    }
+  }
   ignore("futzing with contains") {
     val t1 = new Tweet("u1", "aoeu", 11)
     val t2 = new Tweet("u2", "aeouaoeu", 11)
