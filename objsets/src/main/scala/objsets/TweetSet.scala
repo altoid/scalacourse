@@ -172,13 +172,13 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
 
   // beware, the sets are sorted on text, not on retweets, so we have to scan the whole set.
   def mostRetweeted: Tweet = {
-    var l = try {
+    val l = try {
       left.mostRetweeted
     } catch {
       case e: NoSuchElementException => elem
     }
 
-    var r = try {
+    val r = try {
       right.mostRetweeted
     } catch {
       case e: NoSuchElementException => elem
