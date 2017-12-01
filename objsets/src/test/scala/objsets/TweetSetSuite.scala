@@ -59,7 +59,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  ignore("remove manually") {
+  test("remove manually") {
     new BunchaTweets {
       val mrt = allTweets.mostRetweeted
       val lighter = allTweets.remove(mrt)
@@ -71,26 +71,10 @@ class TweetSetSuite extends FunSuite {
       val evenLighter = lighter.remove(another)
 
       val longer = new Cons(another, list)
-
-      longer.foreach(t => println(t.retweets))
     }
   }
 
-  ignore("descending: singleton") {
-    new BunchaTweets {
-      val dl = s12.descendingByRetweet
-      dl.foreach(t => println(t))
-    }
-  }
-
-  test("descending: all") {
-    new BunchaTweets {
-      val dl = allTweets.descendingByRetweet
-      dl.foreach(t => println(t))
-    }
-  }
-
-  ignore("most retweeted - empty set") {
+  test("most retweeted - empty set") {
     val e = new Empty
 
     intercept[NoSuchElementException] {
@@ -98,7 +82,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  ignore("most retweeted - nonempty set") {
+  test("most retweeted - nonempty set") {
     new BunchaTweets {
 
       assert(size(allTweets) === 6)
@@ -109,14 +93,14 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  ignore("most retweeted - singleton") {
+  test("most retweeted - singleton") {
     new BunchaTweets {
       val mrt = s1.mostRetweeted
       assert(mrt == t1)
     }
   }
 
-  ignore("futzing with contains") {
+  test("futzing with contains") {
     val t1 = new Tweet("u1", "aoeu", 11)
     val t2 = new Tweet("u2", "aeouaoeu", 11)
     val t3 = new Tweet("u3", "aoaeoueu", 11)
@@ -129,7 +113,7 @@ class TweetSetSuite extends FunSuite {
     assert(!s1.contains(t1))
   }
 
-  ignore("s1_u_s1") {
+  test("s1_u_s1") {
     new BunchaTweets {
       val s1_u_s1 = s1.union(s1)
       assert(size(s1_u_s1) === 1)
@@ -137,7 +121,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  ignore("s1_u_s4") {
+  test("s1_u_s4") {
     new BunchaTweets {
       val s1_u_s4 = s1.union(s4)
       assert(size(s1_u_s4) === 2)
@@ -146,7 +130,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  ignore("s123_u_s456") {
+  test("s123_u_s456") {
     new BunchaTweets {
       val s123_u_s456 = s123.union(s456)
       assert(size(s123_u_s456) === 6)
@@ -159,7 +143,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  ignore("build-a-bear") {
+  test("build-a-bear") {
     val t5 = new Tweet("t5", "t5", 11)
     val t9 = new Tweet("t9", "t9", 11)
     val t8 = new Tweet("t8", "t8", 11)
@@ -178,7 +162,7 @@ class TweetSetSuite extends FunSuite {
     assert(size(s5) === 4)
   }
 
-  ignore("filterAcc") {
+  test("filterAcc") {
     new TestSets {
       val e = new Empty
 
@@ -200,7 +184,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  ignore("filter, nontrivial predicate") {
+  test("filter, nontrivial predicate") {
     new TestSets {
       // set5 has a, b, c, and d.
       val under_10_retweets: Tweet => Boolean = t => t.retweets < 10
@@ -213,43 +197,43 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  ignore("filter: on empty set") {
+  test("filter: on empty set") {
     new TestSets {
       assert(size(set1.filter(tw => tw.user == "a")) === 0)
     }
   }
 
-  ignore("filter: a on set5") {
+  test("filter: a on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.user == "a")) === 1)
     }
   }
 
-  ignore("filter: 20 on set5") {
+  test("filter: 20 on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.retweets == 20)) === 2)
     }
   }
 
-  ignore("union: set4c and set4d") {
+  test("union: set4c and set4d") {
     new TestSets {
       assert(size(set4c.union(set4d)) === 4)
     }
   }
 
-  ignore("union: with empty set (1)") {
+  test("union: with empty set (1)") {
     new TestSets {
       assert(size(set5.union(set1)) === 4)
     }
   }
 
-  ignore("union: with empty set (2)") {
+  test("union: with empty set (2)") {
     new TestSets {
       assert(size(set1.union(set5)) === 4)
     }
   }
 
-  ignore("descending: set5") {
+  test("descending: set5") {
     new TestSets {
       val trends = set5.descendingByRetweet
       assert(!trends.isEmpty)
