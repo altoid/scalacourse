@@ -144,12 +144,7 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   // println(getClass().getName() + "@"+ Integer.toHexString(hashCode()))
 
   def filterAcc(p: Tweet => Boolean, acc: TweetSet): TweetSet = {
-    // don't use foreach
-    val a = if (p(elem)) acc.incl(elem) else acc
-    val b = left.filterAcc(p, a)
-    val c = right.filterAcc(p, b)
-    c
-    // i know this sucks.  i don't know scala well enough to do it better yet.
+    right.filterAcc(p, left.filterAcc(p, if (p(elem)) acc.incl(elem) else acc))
   }
 
   /**
@@ -222,7 +217,6 @@ trait TweetList {
   }
 
   def reverse_helper(acc: TweetList): TweetList = {
-    // nested function?
     if (isEmpty) acc
     else tail.reverse_helper(new Cons(head, acc))
   }
