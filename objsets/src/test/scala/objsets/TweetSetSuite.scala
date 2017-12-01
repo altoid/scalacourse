@@ -48,7 +48,18 @@ class TweetSetSuite extends FunSuite {
 
   def size(set: TweetSet): Int = asSet(set).size
 
-  test("remove manually") {
+  test("reverse") {
+    new BunchaTweets {
+      val tl = new Cons(t1, new Cons(t2, new Cons(t3, Nil)))
+      val r = tl.reverse
+      assert(r.head === t3)
+      assert(r.tail.head === t2)
+      assert(r.tail.tail.head === t1)
+      assert(r.tail.tail.tail.isEmpty)
+    }
+  }
+
+  ignore("remove manually") {
     new BunchaTweets {
       val mrt = allTweets.mostRetweeted
       val lighter = allTweets.remove(mrt)
@@ -65,7 +76,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("descending: singleton") {
+  ignore("descending: singleton") {
     new BunchaTweets {
       val dl = s12.descendingByRetweet
       dl.foreach(t => println(t))
@@ -79,7 +90,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("most retweeted - empty set") {
+  ignore("most retweeted - empty set") {
     val e = new Empty
 
     intercept[NoSuchElementException] {
@@ -87,7 +98,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("most retweeted - nonempty set") {
+  ignore("most retweeted - nonempty set") {
     new BunchaTweets {
 
       assert(size(allTweets) === 6)
@@ -98,12 +109,13 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("most retweeted - singleton") {
+  ignore("most retweeted - singleton") {
     new BunchaTweets {
       val mrt = s1.mostRetweeted
       assert(mrt == t1)
     }
   }
+
   ignore("futzing with contains") {
     val t1 = new Tweet("u1", "aoeu", 11)
     val t2 = new Tweet("u2", "aeouaoeu", 11)

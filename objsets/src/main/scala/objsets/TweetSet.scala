@@ -80,7 +80,7 @@ abstract class TweetSet {
     * and be implemented in the subclasses?
     */
   def descendingByRetweet: TweetList = {
-    descendingByRetweet_helper(Nil)
+    descendingByRetweet_helper(Nil).reverse
   }
 
   def descendingByRetweet_helper(acc: TweetList): TweetList = {
@@ -216,6 +216,16 @@ trait TweetList {
       f(head)
       tail.foreach(f)
     }
+
+  def reverse: TweetList = {
+    reverse_helper(Nil)
+  }
+
+  def reverse_helper(acc: TweetList): TweetList = {
+    // nested function?
+    if (isEmpty) acc
+    else tail.reverse_helper(new Cons(head, acc))
+  }
 }
 
 object Nil extends TweetList {
