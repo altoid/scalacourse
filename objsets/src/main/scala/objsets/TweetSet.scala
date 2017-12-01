@@ -7,8 +7,9 @@ import TweetReader._
   */
 class Tweet(val user: String, val text: String, val retweets: Int) {
   override def toString: String =
-    "User: " + user + "\n" +
-      "Text: " + text + " [" + retweets + "]"
+//    "User: " + user + "\n" +
+//      "Text: " + text + " [" + retweets + "]"
+    "User: " + user + ", Text: " + text + " [" + retweets + "]"
 }
 
 /**
@@ -78,7 +79,18 @@ abstract class TweetSet {
     * Question: Should we implment this method here, or should it remain abstract
     * and be implemented in the subclasses?
     */
-  def descendingByRetweet: TweetList = ???
+  def descendingByRetweet: TweetList = {
+    descendingByRetweet_helper(Nil)
+  }
+
+  def descendingByRetweet_helper(acc: TweetList): TweetList = {
+    try {
+      val mrt = mostRetweeted
+      remove(mrt).descendingByRetweet_helper(new Cons(mrt, acc))
+    } catch {
+      case e: NoSuchElementException => acc
+    }
+  }
 
   /**
     * The following methods are already implemented

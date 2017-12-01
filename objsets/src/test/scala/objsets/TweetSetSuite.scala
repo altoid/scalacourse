@@ -37,6 +37,7 @@ class TweetSetSuite extends FunSuite {
     val s45 = s4.incl(t5)
     val s456 = s45.incl(t6)
 
+    val allTweets = e.incl(t3).incl(t4).incl(t2).incl(t6).incl(t5).incl(t1)
   }
 
   def asSet(tweets: TweetSet): Set[Tweet] = {
@@ -46,6 +47,37 @@ class TweetSetSuite extends FunSuite {
   }
 
   def size(set: TweetSet): Int = asSet(set).size
+
+  test("remove manually") {
+    new BunchaTweets {
+      val mrt = allTweets.mostRetweeted
+      val lighter = allTweets.remove(mrt)
+      assert(size(lighter) == size(allTweets) - 1)
+
+      val list = new Cons(mrt, Nil)
+
+      val another = lighter.mostRetweeted
+      val evenLighter = lighter.remove(another)
+
+      val longer = new Cons(another, list)
+
+      longer.foreach(t => println(t.retweets))
+    }
+  }
+
+  test("descending: singleton") {
+    new BunchaTweets {
+      val dl = s12.descendingByRetweet
+      dl.foreach(t => println(t))
+    }
+  }
+
+  test("descending: all") {
+    new BunchaTweets {
+      val dl = allTweets.descendingByRetweet
+      dl.foreach(t => println(t))
+    }
+  }
 
   test("most retweeted - empty set") {
     val e = new Empty
@@ -57,11 +89,10 @@ class TweetSetSuite extends FunSuite {
 
   test("most retweeted - nonempty set") {
     new BunchaTweets {
-      val s = e.incl(t3).incl(t4).incl(t2).incl(t6).incl(t5).incl(t1)
 
-      assert(size(s) === 6)
+      assert(size(allTweets) === 6)
 
-      assert(s.mostRetweeted == t6)
+      assert(allTweets.mostRetweeted == t6)
       assert(s12.mostRetweeted == t2)
       assert(s45.mostRetweeted == t5)
     }
