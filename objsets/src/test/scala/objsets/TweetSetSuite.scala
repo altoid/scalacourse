@@ -274,8 +274,9 @@ class TweetSetSuite extends FunSuite {
     // want a function that takes a list of tokens and returns a Tweet => Boolean predicate
     def filter_on_tokens(vendor_tokens: List[String]): Tweet => Boolean = {
       def anyfilter(tweet: Tweet): Boolean = {
-        val tokens = tweet.text.split("""[ \p{Punct}]+""")
-        vendor_tokens intersect tokens nonEmpty
+//        val tokens = tweet.text.split("""[ \p{Punct}]+""")
+//        vendor_tokens intersect tokens nonEmpty
+        vendor_tokens.exists(tweet.text.contains(_))
       }
       anyfilter
     }
