@@ -48,7 +48,7 @@ class TweetSetSuite extends FunSuite {
 
   def size(set: TweetSet): Int = asSet(set).size
 
-  test("reverse") {
+  ignore("reverse") {
     new BunchaTweets {
       val tl = new Cons(t1, new Cons(t2, new Cons(t3, Nil)))
       val r = tl.reverse
@@ -59,7 +59,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("remove manually") {
+  ignore("remove manually") {
     new BunchaTweets {
       val mrt = allTweets.mostRetweeted
       val lighter = allTweets.remove(mrt)
@@ -74,7 +74,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("most retweeted - empty set") {
+  ignore("most retweeted - empty set") {
     val e = new Empty
 
     intercept[NoSuchElementException] {
@@ -82,7 +82,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("most retweeted - nonempty set") {
+  ignore("most retweeted - nonempty set") {
     new BunchaTweets {
 
       assert(size(allTweets) === 6)
@@ -93,14 +93,14 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("most retweeted - singleton") {
+  ignore("most retweeted - singleton") {
     new BunchaTweets {
       val mrt = s1.mostRetweeted
       assert(mrt == t1)
     }
   }
 
-  test("futzing with contains") {
+  ignore("futzing with contains") {
     val t1 = new Tweet("u1", "aoeu", 11)
     val t2 = new Tweet("u2", "aeouaoeu", 11)
     val t3 = new Tweet("u3", "aoaeoueu", 11)
@@ -113,7 +113,7 @@ class TweetSetSuite extends FunSuite {
     assert(!s1.contains(t1))
   }
 
-  test("s1_u_s1") {
+  ignore("s1_u_s1") {
     new BunchaTweets {
       val s1_u_s1 = s1.union(s1)
       assert(size(s1_u_s1) === 1)
@@ -121,7 +121,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("s1_u_s4") {
+  ignore("s1_u_s4") {
     new BunchaTweets {
       val s1_u_s4 = s1.union(s4)
       assert(size(s1_u_s4) === 2)
@@ -130,7 +130,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("s123_u_s456") {
+  ignore("s123_u_s456") {
     new BunchaTweets {
       val s123_u_s456 = s123.union(s456)
       assert(size(s123_u_s456) === 6)
@@ -143,7 +143,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("build-a-bear") {
+  ignore("build-a-bear") {
     val t5 = new Tweet("t5", "t5", 11)
     val t9 = new Tweet("t9", "t9", 11)
     val t8 = new Tweet("t8", "t8", 11)
@@ -162,7 +162,7 @@ class TweetSetSuite extends FunSuite {
     assert(size(s5) === 4)
   }
 
-  test("filterAcc") {
+  ignore("filterAcc") {
     new TestSets {
       val e = new Empty
 
@@ -184,7 +184,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("filter, nontrivial predicate") {
+  ignore("filter, nontrivial predicate") {
     new TestSets {
       // set5 has a, b, c, and d.
       val under_10_retweets: Tweet => Boolean = t => t.retweets < 10
@@ -197,43 +197,43 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("filter: on empty set") {
+  ignore("filter: on empty set") {
     new TestSets {
       assert(size(set1.filter(tw => tw.user == "a")) === 0)
     }
   }
 
-  test("filter: a on set5") {
+  ignore("filter: a on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.user == "a")) === 1)
     }
   }
 
-  test("filter: 20 on set5") {
+  ignore("filter: 20 on set5") {
     new TestSets {
       assert(size(set5.filter(tw => tw.retweets == 20)) === 2)
     }
   }
 
-  test("union: set4c and set4d") {
+  ignore("union: set4c and set4d") {
     new TestSets {
       assert(size(set4c.union(set4d)) === 4)
     }
   }
 
-  test("union: with empty set (1)") {
+  ignore("union: with empty set (1)") {
     new TestSets {
       assert(size(set5.union(set1)) === 4)
     }
   }
 
-  test("union: with empty set (2)") {
+  ignore("union: with empty set (2)") {
     new TestSets {
       assert(size(set1.union(set5)) === 4)
     }
   }
 
-  test("descending: set5") {
+  ignore("descending: set5") {
     new TestSets {
       val trends = set5.descendingByRetweet
       assert(!trends.isEmpty)
@@ -241,4 +241,22 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
+  test("parse") {
+    val t = new Tweet("CNET",
+      "Four most-useful new settings in iOS 6 http://t.co/LHFOCLnA",
+      63)
+
+    // need to pick off punctuation
+    val tokens = t.text.split("""[ \p{Punct}]+""")
+    assert(tokens.contains("settings"))
+    assert(!tokens.contains("theomorphism"))
+
+    val test_tokens = List("new", "settings", "potato")
+
+    val not_found = List("meh", "guava", "meep")
+
+    assert(not_found intersect tokens isEmpty)
+    assert(test_tokens intersect tokens nonEmpty)
   }
+
+}
