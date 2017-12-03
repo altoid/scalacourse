@@ -241,7 +241,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  test("parse") {
+  test("tokenize") {
     val t = new Tweet("CNET",
       "Four most-useful new settings in iOS 6 http://t.co/LHFOCLnA",
       63)
@@ -259,4 +259,32 @@ class TweetSetSuite extends FunSuite {
     assert(test_tokens intersect tokens nonEmpty)
   }
 
+  test("build apple set") {
+    val apple_tokens = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
+    val t1 = new Tweet("CNET",
+      "Four most-useful new settings in iOS 6 http://t.co/LHFOCLnA",
+      63)
+    val t2 = new Tweet("CNET",
+      "RT @CNETNews: Apple \"fell short\" with iOS 6 maps, and we are \"extremely sorry,\" CEO Tim Cook says in open letter http://t.co/t1U4497r",
+      139)
+    val t3 = new Tweet("mashable",
+      "Book About Kickstarter Fails to Raise Enough Money on Kickstarter http://t.co/SpKYdnOx",
+      59)
+
+    // want a function that takes a list of tokens and returns a Tweet => Boolean predicate
+    def filter_on_tokens(vendor_tokens: List[String]): Tweet => Boolean = {
+      def anyfilter(tweet: Tweet): Boolean = {
+        val tokens = tweet.text.split("""[ \p{Punct}]+""")
+        vendor_tokens intersect tokens nonEmpty
+      }
+      anyfilter
+    }
+    val tw_set = (new Empty).incl(t1).incl(t2).incl(t3)
+    val appleTweets = tw_set.filter(filter_on_tokens(apple_tokens))
+
+    assert(size(appleTweets) === 2)
+    assert(appleTweets.contains(t1))
+    assert(appleTweets.contains(t2))
+    assert(!appleTweets.contains(t3))
+  }
 }
