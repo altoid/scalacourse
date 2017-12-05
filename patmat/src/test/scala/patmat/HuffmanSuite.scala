@@ -18,7 +18,8 @@ class HuffmanSuite extends FunSuite {
     val l1 = Leaf('x', 42)
     assert(weight(l1) === 42)
   }
-  
+
+
   test("weight of a larger tree") {
     new TestTrees {
       assert(weight(t1) === 5)
@@ -32,6 +33,9 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("times") {
+    
+  }
 
   ignore("string2chars(\"hello, world\")") {
     assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
