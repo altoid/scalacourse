@@ -17,6 +17,9 @@ class HuffmanSuite extends FunSuite {
   test("weight of a leaf") {
     val l1 = Leaf('x', 42)
     assert(weight(l1) === 42)
+
+    val c:CodeTree = l1
+    assert(weight(c) === 42)
   }
 
 
@@ -31,6 +34,11 @@ class HuffmanSuite extends FunSuite {
     new TestTrees {
       assert(chars(t2) === List('a','b','d'))
     }
+  }
+
+  test("make code tree") {
+    val x = makeCodeTree(Leaf('a',2), Leaf('b',3))
+    assert(x === Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5))
   }
 
   ignore("string2chars(\"hello, world\")") {
@@ -60,5 +68,20 @@ class HuffmanSuite extends FunSuite {
     val freqs = times(chars)
     val x = makeOrderedLeafList(freqs)
     assert(x === List(Leaf('p',1), Leaf('y',2), Leaf('a',2), Leaf('x',3)))
+  }
+
+  test("combine 1") {
+    val chars = string2Chars("scala_is_way_too_bitchy")
+
+    // combine requires its input list to be sorted.
+    val leaves = makeOrderedLeafList(times(chars)) sortWith (_.weight < _.weight)
+
+    val combo = combine(leaves)
+
+    assert(combo === List(Leaf('h',1), Leaf('w',1),
+      Fork(Leaf('b',1),Leaf('l',1),List('b', 'l'),2),
+      Leaf('s',2), Leaf('y',2), Leaf('t',2),
+      Leaf('i',2), Leaf('c',2), Leaf('o',2),
+      Leaf('a',3), Leaf('_',4)))
   }
 }
