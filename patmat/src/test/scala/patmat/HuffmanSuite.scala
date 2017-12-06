@@ -70,6 +70,16 @@ class HuffmanSuite extends FunSuite {
     assert(x === List(Leaf('p',1), Leaf('y',2), Leaf('a',2), Leaf('x',3)))
   }
 
+  test("until") {
+    val freqs = times(string2Chars("xyxayxpa"))
+    val leaves = makeOrderedLeafList(freqs)
+
+    println(leaves)
+    val combo = until(singleton, combine)(leaves)
+    println(combo)
+    assert(combo.size === 1)
+  }
+
   test("combine 1") {
     val chars = string2Chars("scala_is_way_too_bitchy")
 
@@ -83,5 +93,11 @@ class HuffmanSuite extends FunSuite {
       Leaf('s',2), Leaf('y',2), Leaf('t',2),
       Leaf('i',2), Leaf('c',2), Leaf('o',2),
       Leaf('a',3), Leaf('_',4)))
+  }
+
+  test("combine 2") {
+    val chars = string2Chars("x")
+    val leaves = makeOrderedLeafList(times(chars)) sortWith(_.weight < _.weight)
+    assert(singleton(leaves) === true)
   }
 }
