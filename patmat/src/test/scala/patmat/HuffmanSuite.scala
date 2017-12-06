@@ -14,27 +14,23 @@ class HuffmanSuite extends FunSuite {
 		val t2 = Fork(Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5), Leaf('d',4), List('a','b','d'), 9)
 	}
 
-  test("weight of a leaf") {
+  ignore("weight of a leaf") {
     val l1 = Leaf('x', 42)
     assert(weight(l1) === 42)
   }
 
 
-  test("weight of a larger tree") {
+  ignore("weight of a larger tree") {
     new TestTrees {
       assert(weight(t1) === 5)
     }
   }
 
 
-  test("chars of a larger tree") {
+  ignore("chars of a larger tree") {
     new TestTrees {
       assert(chars(t2) === List('a','b','d'))
     }
-  }
-
-  test("times") {
-    
   }
 
   ignore("string2chars(\"hello, world\")") {
@@ -59,4 +55,11 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("make ordered leaf list") {
+    val chars = List('x', 'y', 'x', 'a', 'y', 'x', 'p', 'a')
+    val freqs = times(chars)
+    println(freqs)
+    val x = makeOrderedLeafList(freqs)
+    println(x)
+  }
 }
