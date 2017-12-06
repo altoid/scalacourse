@@ -41,7 +41,7 @@ class HuffmanSuite extends FunSuite {
     assert(x === Fork(Leaf('a', 2), Leaf('b', 3), List('a', 'b'), 5))
   }
 
-  ignore("string2chars(\"hello, world\")") {
+  test("string2chars(\"hello, world\")") {
     assert(string2Chars("hello, world") === List('h', 'e', 'l', 'l', 'o', ',', ' ', 'w', 'o', 'r', 'l', 'd'))
   }
 
@@ -51,7 +51,7 @@ class HuffmanSuite extends FunSuite {
   }
 
 
-  ignore("combine of some leaf list") {
+  test("combine of some leaf list") {
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
     assert(combine(leaflist) === List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
   }
@@ -74,9 +74,7 @@ class HuffmanSuite extends FunSuite {
     val freqs = times(string2Chars("xyxayxpa"))
     val leaves = makeOrderedLeafList(freqs)
 
-    println(leaves)
     val combo = until(singleton, combine)(leaves)
-    println(combo)
     assert(combo.size === 1)
   }
 
