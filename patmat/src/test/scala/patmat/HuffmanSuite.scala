@@ -146,4 +146,11 @@ class HuffmanSuite extends FunSuite {
       assert(test_bits === rve_bits)
     }
   }
+
+  test("encode singleton") {
+    val tree = createCodeTree(string2Chars("r"))
+
+    val test_bits = encode(tree)(string2Chars("rr"))
+    assert(test_bits === List[Bit](1, 1))
+  }
 }

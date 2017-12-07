@@ -226,7 +226,15 @@ object Huffman {
       }
     }
 
-    encode_helper(tree)(text, List[Bit]())
+    def singleton_helper(subtree: CodeTree)(text: List[Char], acc: List[Bit]): List[Bit] = {
+      if (text.isEmpty) acc
+      else 1 :: singleton_helper(tree)(text.tail, acc)
+    }
+
+    tree match {
+      case Fork(_, _, _, _) => encode_helper(tree)(text, List[Bit]())
+      case Leaf(_, _) => singleton_helper(tree)(text, List[Bit]())
+    }
   }
   
   // Part 4b: Encoding using code table
