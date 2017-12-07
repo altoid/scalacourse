@@ -124,13 +124,15 @@ class HuffmanSuite extends FunSuite {
     assert(d.mkString === "r")
 
     val d2 = decode(tree, letter_r ++ letter_v)
-    println(d2)
     assert(d2.size === 2)
     assert(d2.mkString === "rv")
 
     val d3 = decode(tree, letter_r ++ letter_v ++ letter_e)
-    println(d3)
     assert(d3.size === 3)
     assert(d3.mkString === "rve")
+  }
+
+  test("ooh la la") {
+    assert(decodedSecret.mkString === "huffmanestcool") // vraiment
   }
 }
