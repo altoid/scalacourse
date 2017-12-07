@@ -98,4 +98,29 @@ class HuffmanSuite extends FunSuite {
     val leaves = makeOrderedLeafList(times(chars)) sortWith(_.weight < _.weight)
     assert(singleton(leaves) === true)
   }
+
+  test("decode") {
+    val tree = createCodeTree(string2Chars("this and that and whatever"))
+    val encode_me = "shit in the hat"
+
+    println(tree)
+
+    val letter_r = List[Bit](0,1,0,1,1)
+    val letter_v = List[Bit](0,1,0,1,0)
+    val letter_e = List[Bit](1,1,1,1)
+
+    val d = decode(tree, letter_r)
+    assert(d.size === 1)
+    assert(d.mkString === "r")
+
+    val d2 = decode(tree, letter_r ++ letter_v)
+    println(d2)
+    assert(d2.size === 2)
+    assert(d2.mkString === "rv")
+
+    val d3 = decode(tree, letter_r ++ letter_v ++ letter_e)
+    println(d3)
+    assert(d3.size === 3)
+    assert(d3.mkString === "rve")
+  }
 }
