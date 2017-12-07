@@ -170,7 +170,22 @@ object Huffman {
         }
       }
 
-      decode_helper(tree, bits, List[Char]())
+      /**
+        * this is used for the case where the code tree consists of a single leaf.
+        */
+      def singleton_helper(subtree: CodeTree, bits: List[Bit], acc: List[Char]): List[Char] = {
+        if (bits.isEmpty) acc
+        else {
+          subtree match {
+            case Leaf(x, _) => x :: singleton_helper(tree, bits.tail, acc)
+          }
+        }
+      }
+
+      tree match {
+        case Fork(_, _, _, _) => decode_helper(tree, bits, List[Char]())
+        case Leaf(_, _) => singleton_helper(tree, bits, List[Char]())
+      }
     }
   
   /**

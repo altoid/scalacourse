@@ -99,11 +99,21 @@ class HuffmanSuite extends FunSuite {
     assert(singleton(leaves) === true)
   }
 
+  test("decode singleton") {
+    val tree = createCodeTree(string2Chars("r"))
+    val letter_r = List[Bit](1)
+
+    val d = decode(tree, letter_r)
+    assert(d.size === 1)
+    assert(d.mkString === "r")
+
+    val d2 = decode(tree, letter_r ++ letter_r)
+    assert(d2.size === 2)
+    assert(d2.mkString === "rr")
+  }
+
   test("decode") {
     val tree = createCodeTree(string2Chars("this and that and whatever"))
-    val encode_me = "shit in the hat"
-
-    println(tree)
 
     val letter_r = List[Bit](0,1,0,1,1)
     val letter_v = List[Bit](0,1,0,1,0)
