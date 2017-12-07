@@ -12,7 +12,12 @@ class HuffmanSuite extends FunSuite {
 	trait TestTrees {
 		val t1 = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
 		val t2 = Fork(Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5), Leaf('d',4), List('a','b','d'), 9)
-	}
+
+    val testTree: CodeTree = createCodeTree(string2Chars("this and that and whatever"))
+    val letter_r = List[Bit](0, 1, 0, 1, 1)
+    val letter_v = List[Bit](0, 1, 0, 1, 0)
+    val letter_e = List[Bit](1, 1, 1, 1)
+  }
 
   test("weight of a leaf") {
     val l1 = Leaf('x', 42)
@@ -57,7 +62,7 @@ class HuffmanSuite extends FunSuite {
   }
 
 
-  ignore("decode and encode a very short text should be identity") {
+  test("decode and encode a very short text should be identity") {
     new TestTrees {
       assert(decode(t1, encode(t1)("ab".toList)) === "ab".toList)
     }
@@ -113,26 +118,32 @@ class HuffmanSuite extends FunSuite {
   }
 
   test("decode") {
-    val tree = createCodeTree(string2Chars("this and that and whatever"))
+    new TestTrees {
 
-    val letter_r = List[Bit](0,1,0,1,1)
-    val letter_v = List[Bit](0,1,0,1,0)
-    val letter_e = List[Bit](1,1,1,1)
+      val d = decode(testTree, letter_r)
+      assert(d.size === 1)
+      assert(d.mkString === "r")
 
-    val d = decode(tree, letter_r)
-    assert(d.size === 1)
-    assert(d.mkString === "r")
+      val d2 = decode(testTree, letter_r ++ letter_v)
+      assert(d2.size === 2)
+      assert(d2.mkString === "rv")
 
-    val d2 = decode(tree, letter_r ++ letter_v)
-    assert(d2.size === 2)
-    assert(d2.mkString === "rv")
-
-    val d3 = decode(tree, letter_r ++ letter_v ++ letter_e)
-    assert(d3.size === 3)
-    assert(d3.mkString === "rve")
+      val d3 = decode(testTree, letter_r ++ letter_v ++ letter_e)
+      assert(d3.size === 3)
+      assert(d3.mkString === "rve")
+    }
   }
 
   test("ooh la la") {
     assert(decodedSecret.mkString === "huffmanestcool") // vraiment
+  }
+
+  test("encode") {
+    new TestTrees {
+      val rve_bits = letter_r ++ letter_v ++ letter_e
+
+      val test_bits = encode(testTree)(string2Chars("rve"))
+      assert(test_bits === rve_bits)
+    }
   }
 }
