@@ -34,7 +34,6 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
-
   test("chars of a larger tree") {
     new TestTrees {
       assert(chars(t2) === List('a','b','d'))
@@ -156,9 +155,21 @@ class HuffmanSuite extends FunSuite {
 
   test("convert") {
     new TestTrees {
-      println(testTree)
+//      println(testTree)
       val table = convert(testTree)
-      println(table)
+//      println(table)
+
+      assert(codeBits(table)('r') === letter_r)
+    }
+  }
+
+  test("quickEncode") {
+    new TestTrees {
+      // encode a string, decode it, and see if we get back the original
+      val text = "headwaiter"
+      val hufbits = quickEncode(testTree)(string2Chars(text))
+
+      assert(decode(testTree, hufbits).mkString === text)
     }
   }
 }
