@@ -153,4 +153,12 @@ class HuffmanSuite extends FunSuite {
     val test_bits = encode(tree)(string2Chars("rr"))
     assert(test_bits === List[Bit](1, 1))
   }
+
+  test("convert") {
+    new TestTrees {
+      println(testTree)
+      val table = convert(testTree)
+      println(table)
+    }
+  }
 }
