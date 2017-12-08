@@ -2,6 +2,8 @@ package patmat
 
 import common._
 
+import scala.language.postfixOps
+
 /**
  * Assignment 4: Huffman coding
  *
@@ -218,7 +220,7 @@ object Huffman {
     def encode_helper(subtree: CodeTree)(text: List[Char], acc: List[Bit]): List[Bit] = {
       subtree match {
         case Leaf(x, _) => acc ++ encode(tree)(text.tail)
-        case Fork(left, right, letters, _) => {
+        case Fork(left, right, _, _) => {
           if (text.isEmpty) acc
           else if (chars(left).contains(text.head)) 0 :: encode_helper(left)(text, acc)
           else 1 :: encode_helper(right)(text, acc)
@@ -264,7 +266,7 @@ object Huffman {
       def convert_helper(subtree: CodeTree, partial_bits: List[Bit]): CodeTable = {
         subtree match {
           case Leaf(x, _) => List((x, partial_bits))
-          case Fork(left, right, letters, _) => {
+          case Fork(left, right, _, _) => {
             val left_table = convert_helper(left, partial_bits :+ 0)
             val right_table = convert_helper(right, partial_bits :+ 1)
             mergeCodeTables(left_table, right_table)
