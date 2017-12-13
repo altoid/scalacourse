@@ -18,11 +18,14 @@ class AnagramsSuite extends FunSuite  {
     assert(wordOccurrences("Robert") === List(('b', 1), ('e', 1), ('o', 1), ('r', 2), ('t', 1)))
   }
 
-
-  ignore("sentenceOccurrences: abcd e") {
+  test("sentenceOccurrences: abcd e") {
     assert(sentenceOccurrences(List("abcd", "e")) === List(('a', 1), ('b', 1), ('c', 1), ('d', 1), ('e', 1)))
   }
 
+  test("sentenceOccurrences:  longer") {
+    val sentence = "Next we implement another version of the method for entire sentences"
+    assert(sentenceOccurrences(sentence.split(" ").toList) === List(('a',1), ('c',1), ('d',1), ('e',13), ('f',2), ('h',3), ('i',3), ('l',1), ('m',3), ('n',7), ('o',5), ('p',1), ('r',4), ('s',3), ('t',7), ('v',1), ('w',1), ('x',1)))
+  }
 
   ignore("dictionaryByOccurrences.get: eat") {
     assert(dictionaryByOccurrences.get(List(('a', 1), ('e', 1), ('t', 1))).map(_.toSet) === Some(Set("ate", "eat", "tea")))
