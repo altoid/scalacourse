@@ -34,7 +34,13 @@ object Anagrams {
    *
    *  Note: you must use `groupBy` to implement this method!
    */
-  def wordOccurrences(w: Word): Occurrences = ???
+  def wordOccurrences(w: Word): Occurrences = {
+    // def groupBy[K](f : Char => K) : Map[K, List[Char]]
+    // best we can do with groupby is to group all the characters together,
+    // e.g. (c -> List(c, c, c)).
+    val g = w.toList.groupBy(c => c.toLower) map (x => (x._1, x._2.length))
+    g.toList.sortBy(p => p._1)
+  }
 
   /** Converts a sentence into its character occurrence list. */
   def sentenceOccurrences(s: Sentence): Occurrences = ???
