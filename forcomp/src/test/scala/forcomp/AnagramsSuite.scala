@@ -109,4 +109,8 @@ class AnagramsSuite extends FunSuite  {
     assert(werdz.size != 0)
     assert(werdz.head.size != 0)
   }
+
+  test("futz") {
+    println(wordAnagrams("spin"))
+  }
 }
