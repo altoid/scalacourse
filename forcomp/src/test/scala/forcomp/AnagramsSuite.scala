@@ -102,4 +102,11 @@ class AnagramsSuite extends FunSuite  {
     )
     assert(sentenceAnagrams(sentence).toSet === anas.toSet)
   }
+
+  test("loadDictionary") {
+    // test that loadDictionary gives us at least one word.
+    val werdz = loadDictionary
+    assert(werdz.size != 0)
+    assert(werdz.head.size != 0)
+  }
 }
