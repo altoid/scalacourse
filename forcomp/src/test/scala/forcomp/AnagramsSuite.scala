@@ -103,7 +103,7 @@ class AnagramsSuite extends FunSuite  {
     assert(sentenceAnagrams(sentence).toSet === anas.toSet)
   }
 
-  test("loadDictionary") {
+  ignore("loadDictionary") {
     // test that loadDictionary gives us at least one word.
     val werdz = loadDictionary
     assert(werdz.size != 0)
@@ -111,6 +111,41 @@ class AnagramsSuite extends FunSuite  {
   }
 
   test("futz") {
-    println(wordAnagrams("spin"))
+//    println(wordAnagrams("spin"))
+    val reference = List(1, 4, 2, 3).toArray
+
+    val test: Array[Int] = Array.fill[Int](reference.length)(0)
+    val result = test.clone()
+
+
+    println("test = " + test.mkString(","))
+    println("result = " + result.mkString(","))
+    assert(result.sameElements(test))
+    result(0) = 42
+    println("test = " + test.mkString(","))
+    println("result = " + result.mkString(","))
+    assert(!result.sameElements(test))
+
+    def next(reference: Array[Int], bumpMe: Array[Int]): Array[Int] = {
+      def helper(reference: Array[Int], bumpMe: Array[Int], i: Int): Array[Int] = {
+        bumpMe(i) += 1
+        if (bumpMe(i) <= reference(i)) bumpMe
+        else {
+          result(i) = 0
+          helper(reference, bumpMe, i + i)
+        }
+      }
+
+      if (bumpMe.sameElements(reference)) bumpMe
+      else {
+        helper(reference, bumpMe, 0)
+      }
+    }
+
+    println("test = " + test.mkString(" "))
+    println("result = " + result.mkString(" "))
+    var n = next(reference, result)
+    println("result = " + result.mkString(" "))
+    println("n = " + n.mkString(" "))
   }
 }
