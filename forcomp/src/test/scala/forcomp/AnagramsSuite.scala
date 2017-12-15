@@ -111,41 +111,51 @@ class AnagramsSuite extends FunSuite  {
   }
 
   test("futz") {
-//    println(wordAnagrams("spin"))
-    val reference = List(1, 4, 2, 3).toArray
-
-    val test: Array[Int] = Array.fill[Int](reference.length)(0)
-    val result = test.clone()
+    //    println(wordAnagrams("spin"))
+    val reference = List(1, 3, 2).toArray
 
 
-    println("test = " + test.mkString(","))
-    println("result = " + result.mkString(","))
-    assert(result.sameElements(test))
-    result(0) = 42
-    println("test = " + test.mkString(","))
-    println("result = " + result.mkString(","))
-    assert(!result.sameElements(test))
+    //    println("test = " + test.mkString(","))
+    //    println("result = " + result.mkString(","))
+    //    assert(result.sameElements(test))
+    //    result(0) = 42
+    //    println("test = " + test.mkString(","))
+    //    println("result = " + result.mkString(","))
+    //    assert(!result.sameElements(test))
 
     def next(reference: Array[Int], bumpMe: Array[Int]): Array[Int] = {
-      def helper(reference: Array[Int], bumpMe: Array[Int], i: Int): Array[Int] = {
-        bumpMe(i) += 1
-        if (bumpMe(i) <= reference(i)) bumpMe
+      def helper(reference: Array[Int], incMe: Array[Int], i: Int): Array[Int] = {
+        incMe(i) += 1
+        if (incMe(i) <= reference(i)) incMe
         else {
-          result(i) = 0
-          helper(reference, bumpMe, i + i)
+          incMe(i) = 0
+          helper(reference, incMe, i + 1)
         }
       }
 
-      if (bumpMe.sameElements(reference)) bumpMe
+      var returnMe = bumpMe.clone()
+      if (returnMe.sameElements(reference)) returnMe
       else {
-        helper(reference, bumpMe, 0)
+        helper(reference, returnMe, 0)
       }
     }
 
-    println("test = " + test.mkString(" "))
-    println("result = " + result.mkString(" "))
-    var n = next(reference, result)
-    println("result = " + result.mkString(" "))
-    println("n = " + n.mkString(" "))
+    val test: Array[Int] = Array.fill[Int](reference.length)(0)
+    var n = test.clone()
+    println(n.mkString(" "))
+
+    n = next(reference, n)
+    println(n.mkString(" "))
+
+    n = next(reference, n)
+    println(n.mkString(" "))
+
+    n = next(reference, n)
+    println(n.mkString(" "))
+
+    while (!n.sameElements(reference)) {
+      n = next(reference, n)
+      println(n.mkString(" "))
+    }
   }
 }
