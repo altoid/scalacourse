@@ -27,16 +27,16 @@ class AnagramsSuite extends FunSuite  {
     assert(sentenceOccurrences(sentence.split(" ").toList) === List(('a',1), ('c',1), ('d',1), ('e',13), ('f',2), ('h',3), ('i',3), ('l',1), ('m',3), ('n',7), ('o',5), ('p',1), ('r',4), ('s',3), ('t',7), ('v',1), ('w',1), ('x',1)))
   }
 
-  ignore("dictionaryByOccurrences.get: eat") {
+  test("dictionaryByOccurrences.get: eat") {
     assert(dictionaryByOccurrences.get(List(('a', 1), ('e', 1), ('t', 1))).map(_.toSet) === Some(Set("ate", "eat", "tea")))
   }
 
 
-  ignore("word anagrams: married") {
+  test("word anagrams: married") {
     assert(wordAnagrams("married").toSet === Set("married", "admirer"))
   }
 
-  ignore("word anagrams: player") {
+  test("word anagrams: player") {
     assert(wordAnagrams("player").toSet === Set("parley", "pearly", "player", "replay"))
   }
 
@@ -103,7 +103,7 @@ class AnagramsSuite extends FunSuite  {
     assert(sentenceAnagrams(sentence).toSet === anas.toSet)
   }
 
-  ignore("loadDictionary") {
+  test("loadDictionary") {
     // test that loadDictionary gives us at least one word.
     val werdz = loadDictionary
     assert(werdz.size != 0)
