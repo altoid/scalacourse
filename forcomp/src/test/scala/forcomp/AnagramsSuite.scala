@@ -50,11 +50,11 @@ class AnagramsSuite extends FunSuite  {
   }
 
 
-  ignore("combinations: []") {
+  test("combinations: []") {
     assert(combinations(Nil) === List(Nil))
   }
 
-  ignore("combinations: abba") {
+  test("combinations: abba") {
     val abba = List(('a', 2), ('b', 2))
     val abbacomb = List(
       List(),
@@ -110,7 +110,7 @@ class AnagramsSuite extends FunSuite  {
     assert(werdz.head.size != 0)
   }
 
-  test("futz") {
+  ignore("futz") {
     /**
       * Given a list of positive ints <reference>,
       * @param reference a list of positive ints

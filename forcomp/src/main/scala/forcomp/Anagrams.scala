@@ -71,6 +71,29 @@ object Anagrams {
   def wordAnagrams(word: Word): List[Word] =
     dictionaryByOccurrences(wordOccurrences(word)).sortWith(_ < _)
 
+  /**
+    * Given a list of positive ints <reference>,
+    * @param reference a list of positive ints
+    * @param bumpMe a list of nonnegative ints, such that bumpMe[i] <= reference[i]
+    * @return a list of nonnegative ints the successor of bumpMe.  repeated calls
+    *         to next() will give all lists of ints L where 0 <= L[i] <= reference[i].
+    */
+  def next(reference: List[Int], bumpMe: List[Int]): List[Int] = {
+    def helper(reference: List[Int], incMe: List[Int]): List[Int] = {
+      if (incMe.isEmpty) List()
+      else {
+        var n = incMe.head + 1
+        if (n <= reference.head) n :: incMe.tail
+        else 0 :: helper(reference.tail, incMe.tail)
+      }
+    }
+
+    if (bumpMe.sameElements(reference)) bumpMe
+    else {
+      helper(reference, bumpMe)
+    }
+  }
+
   /** Returns the list of all subsets of the occurrence list.
    *  This includes the occurrence itself, i.e. `List(('k', 1), ('o', 1))`
    *  is a subset of `List(('k', 1), ('o', 1))`.
@@ -93,7 +116,21 @@ object Anagrams {
    *  Note that the order of the occurrence list subsets does not matter -- the subsets
    *  in the example above could have been displayed in some other order.
    */
-  def combinations(occurrences: Occurrences): List[Occurrences] = ???
+  def combinations(occurrences: Occurrences): List[Occurrences] = {
+    var result = List[List[(Char, Int)]]()
+    val (letters, counts) = occurrences.unzip
+    var n = List.fill(counts.length)(0)
+
+    val zpd: List[(Char, Int)] = (letters zip n).filter(x => x._2 > 0)
+    result = zpd :: result
+    while (!n.sameElements(counts)) {
+      n = next(counts, n)
+      val zpd: List[(Char, Int)] = (letters zip n).filter(x => x._2 > 0)
+      result = zpd :: result
+    }
+
+    result
+  }
 
   /** Subtracts occurrence list `y` from occurrence list `x`.
    *
