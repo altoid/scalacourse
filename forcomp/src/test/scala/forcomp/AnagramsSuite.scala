@@ -111,18 +111,13 @@ class AnagramsSuite extends FunSuite  {
   }
 
   test("futz") {
-    //    println(wordAnagrams("spin"))
-    // val reference = List(1, 3, 2).toArray
-
-
-    //    println("test = " + test.mkString(","))
-    //    println("result = " + result.mkString(","))
-    //    assert(result.sameElements(test))
-    //    result(0) = 42
-    //    println("test = " + test.mkString(","))
-    //    println("result = " + result.mkString(","))
-    //    assert(!result.sameElements(test))
-
+    /**
+      * Given a list of positive ints <reference>,
+      * @param reference a list of positive ints
+      * @param bumpMe a list of nonnegative ints, such that bumpMe[i] <= reference[i]
+      * @return a list of nonnegative ints the successor of bumpMe.  repeated calls
+      *         to next() will give all lists of ints L where 0 <= L[i] <= reference[i].
+      */
     def next(reference: List[Int], bumpMe: List[Int]): List[Int] = {
       def helper(reference: List[Int], incMe: List[Int]): List[Int] = {
         if (incMe.isEmpty) List()
@@ -147,12 +142,10 @@ class AnagramsSuite extends FunSuite  {
 
     var result = List[List[(Char, Int)]]()
     val zpd: List[(Char, Int)] = (letters zip n).filter(x => x._2 > 0)
-//    println(zpd)
     result = zpd :: result
     while (!n.sameElements(counts)) {
       n = next(counts, n)
       val zpd: List[(Char, Int)] = (letters zip n).filter(x => x._2 > 0)
-//      println(zpd)
       result = zpd :: result
     }
 
