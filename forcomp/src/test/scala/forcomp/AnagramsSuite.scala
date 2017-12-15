@@ -123,55 +123,40 @@ class AnagramsSuite extends FunSuite  {
     //    println("result = " + result.mkString(","))
     //    assert(!result.sameElements(test))
 
-    def next(reference: Array[Int], bumpMe: Array[Int]): Array[Int] = {
-      def helper(reference: Array[Int], incMe: Array[Int], i: Int): Array[Int] = {
-        incMe(i) += 1
-        if (incMe(i) <= reference(i)) incMe
+    def next(reference: List[Int], bumpMe: List[Int]): List[Int] = {
+      def helper(reference: List[Int], incMe: List[Int]): List[Int] = {
+        if (incMe.isEmpty) List()
         else {
-          incMe(i) = 0
-          helper(reference, incMe, i + 1)
+          var n = incMe.head + 1
+          if (n <= reference.head) n :: incMe.tail
+          else 0 :: helper(reference.tail, incMe.tail)
         }
       }
 
       if (bumpMe.sameElements(reference)) bumpMe
       else {
-        helper(reference, bumpMe, 0)
+        helper(reference, bumpMe)
       }
     }
 
-//    val test: Array[Int] = Array.fill[Int](reference.length)(0)
-//    var n = test.clone()
-//    println(n.mkString(" "))
-//
-//    n = next(reference, n)
-//    println(n.mkString(" "))
-//
-//    n = next(reference, n)
-//    println(n.mkString(" "))
-//
-//    n = next(reference, n)
-//    println(n.mkString(" "))
-//
-//    while (!n.sameElements(reference)) {
-//      n = next(reference, n)
-//      println(n.mkString(" "))
-//    }
-
     val test = List(('a', 1), ('b', 3), ('c', 2))
     val (letters, counts) = test.unzip
-    val countsArr = counts.toArray
-    var n = Array.fill[Int](counts.length)(0)
+    var n = List.fill(counts.length)(0)
     println(letters)
     println(counts)
 
-    val zpd: List[(Char, Int)] = (letters zip n.toList) // .filter(x => x._2 > 0)
-    println(zpd)
-
+    var result = List[List[(Char, Int)]]()
+    val zpd: List[(Char, Int)] = (letters zip n).filter(x => x._2 > 0)
+//    println(zpd)
+    result = zpd :: result
     while (!n.sameElements(counts)) {
-      n = next(countsArr, n)
-      val zpd: List[(Char, Int)] = (letters zip n.toList) // .filter(x => x._2 > 0)
-      println(zpd)
+      n = next(counts, n)
+      val zpd: List[(Char, Int)] = (letters zip n).filter(x => x._2 > 0)
+//      println(zpd)
+      result = zpd :: result
     }
 
+    println(result)
+    println(result.length)
   }
 }
