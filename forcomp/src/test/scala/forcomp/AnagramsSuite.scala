@@ -112,7 +112,7 @@ class AnagramsSuite extends FunSuite  {
 
   test("futz") {
     //    println(wordAnagrams("spin"))
-    val reference = List(1, 3, 2).toArray
+    // val reference = List(1, 3, 2).toArray
 
 
     //    println("test = " + test.mkString(","))
@@ -133,29 +133,45 @@ class AnagramsSuite extends FunSuite  {
         }
       }
 
-      var returnMe = bumpMe.clone()
-      if (returnMe.sameElements(reference)) returnMe
+      if (bumpMe.sameElements(reference)) bumpMe
       else {
-        helper(reference, returnMe, 0)
+        helper(reference, bumpMe, 0)
       }
     }
 
-    val test: Array[Int] = Array.fill[Int](reference.length)(0)
-    var n = test.clone()
-    println(n.mkString(" "))
+//    val test: Array[Int] = Array.fill[Int](reference.length)(0)
+//    var n = test.clone()
+//    println(n.mkString(" "))
+//
+//    n = next(reference, n)
+//    println(n.mkString(" "))
+//
+//    n = next(reference, n)
+//    println(n.mkString(" "))
+//
+//    n = next(reference, n)
+//    println(n.mkString(" "))
+//
+//    while (!n.sameElements(reference)) {
+//      n = next(reference, n)
+//      println(n.mkString(" "))
+//    }
 
-    n = next(reference, n)
-    println(n.mkString(" "))
+    val test = List(('a', 1), ('b', 3), ('c', 2))
+    val (letters, counts) = test.unzip
+    val countsArr = counts.toArray
+    var n = Array.fill[Int](counts.length)(0)
+    println(letters)
+    println(counts)
 
-    n = next(reference, n)
-    println(n.mkString(" "))
+    val zpd: List[(Char, Int)] = (letters zip n.toList) // .filter(x => x._2 > 0)
+    println(zpd)
 
-    n = next(reference, n)
-    println(n.mkString(" "))
-
-    while (!n.sameElements(reference)) {
-      n = next(reference, n)
-      println(n.mkString(" "))
+    while (!n.sameElements(counts)) {
+      n = next(countsArr, n)
+      val zpd: List[(Char, Int)] = (letters zip n.toList) // .filter(x => x._2 > 0)
+      println(zpd)
     }
+
   }
 }
