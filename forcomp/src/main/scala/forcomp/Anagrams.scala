@@ -142,7 +142,20 @@ object Anagrams {
    *  Note: the resulting value is an occurrence - meaning it is sorted
    *  and has no zero-entries.
    */
-  def subtract(x: Occurrences, y: Occurrences): Occurrences = ???
+  def subtract(a: Occurrences, b: Occurrences): Occurrences = {
+    def helper(minuend: Map[Char, Int], subtrahend: (Char, Int)): Map[Char, Int] = {
+      val c = minuend.get(subtrahend._1)
+      c match {
+        case Some(k) => if (k == subtrahend._2) minuend.filterNot(x => x._1 == subtrahend._1)
+        else minuend.updated(subtrahend._1, k - subtrahend._2)
+        case None => throw new NoSuchElementException("not found")
+      }
+    }
+
+    // compute a - b
+    (b.toMap foldLeft a.toMap)(helper).toList
+  }
+
 
   /** Returns a list of all anagram sentences of the given sentence.
    *
