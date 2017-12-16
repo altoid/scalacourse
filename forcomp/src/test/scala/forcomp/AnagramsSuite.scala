@@ -8,7 +8,7 @@ import org.scalatest.junit.JUnitRunner
 import Anagrams._
 
 @RunWith(classOf[JUnitRunner])
-class AnagramsSuite extends FunSuite  {
+class AnagramsSuite extends FunSuite {
 
   test("wordOccurrences: abcd") {
     assert(wordOccurrences("abcd") === List(('a', 1), ('b', 1), ('c', 1), ('d', 1)))
@@ -24,7 +24,7 @@ class AnagramsSuite extends FunSuite  {
 
   test("sentenceOccurrences:  longer") {
     val sentence = "Next we implement another version of the method for entire sentences"
-    assert(sentenceOccurrences(sentence.split(" ").toList) === List(('a',1), ('c',1), ('d',1), ('e',13), ('f',2), ('h',3), ('i',3), ('l',1), ('m',3), ('n',7), ('o',5), ('p',1), ('r',4), ('s',3), ('t',7), ('v',1), ('w',1), ('x',1)))
+    assert(sentenceOccurrences(sentence.split(" ").toList) === List(('a', 1), ('c', 1), ('d', 1), ('e', 13), ('f', 2), ('h', 3), ('i', 3), ('l', 1), ('m', 3), ('n', 7), ('o', 5), ('p', 1), ('r', 4), ('s', 3), ('t', 7), ('v', 1), ('w', 1), ('x', 1)))
   }
 
   test("dictionaryByOccurrences.get: eat") {
@@ -75,12 +75,12 @@ class AnagramsSuite extends FunSuite  {
   }
 
 
-  ignore("sentence anagrams: []") {
+  test("sentence anagrams: []") {
     val sentence = List()
     assert(sentenceAnagrams(sentence) === List(Nil))
   }
 
-  ignore("sentence anagrams: Linux rulez") {
+  test("sentence anagrams: Linux rulez") {
     val sentence = List("Linux", "rulez")
     val anas = List(
       List("Rex", "Lin", "Zulu"),
@@ -115,7 +115,7 @@ class AnagramsSuite extends FunSuite  {
   }
 
   test("no such word") {
-    val findme = "zyzzva"  // not in the dictionary
+    val findme = "zyzzva" // not in the dictionary
     val occ = wordOccurrences(findme)
     intercept[NoSuchElementException] {
       val r = dictionaryByOccurrences(occ)
@@ -126,8 +126,9 @@ class AnagramsSuite extends FunSuite  {
   ignore("futz") {
     /**
       * Given a list of positive ints <reference>,
+      *
       * @param reference a list of positive ints
-      * @param bumpMe a list of nonnegative ints, such that bumpMe[i] <= reference[i]
+      * @param bumpMe    a list of nonnegative ints, such that bumpMe[i] <= reference[i]
       * @return a list of nonnegative ints the successor of bumpMe.  repeated calls
       *         to next() will give all lists of ints L where 0 <= L[i] <= reference[i].
       */
@@ -164,41 +165,5 @@ class AnagramsSuite extends FunSuite  {
 
     println(result)
     println(result.length)
-  }
-
-  test("futz more") {
-    /**
-      * take each subset
-      * obtain words for it
-      * for each word, subtract from the sentence occurrences
-      * do it again
-      * keep going until the subtraction gives us an empty list --> win
-      * or until we get a subset that doesn't correspond to any word --> lose
-      */
-
-    val s: Sentence = List("linux", "rulez")
-
-    val sentence_occurrences = sentenceOccurrences(s)
-
-    def drillDown(sentence_occurrences: Occurrences, level: Int, acc: List[List[Word]]): Unit = {
-      if (sentence_occurrences.isEmpty) println(acc)
-      else {
-        val subsets = combinations(sentence_occurrences)
-        for (subset <- subsets) {
-          try {
-            val d = dictionaryByOccurrences(subset)
-
-            val remainder = subtract(sentence_occurrences, subset)
-            drillDown(remainder, level + 1, d :: acc)
-          }
-          catch {
-            // dictionaryByOccurrences will throw if there is no match
-            case what: NoSuchElementException => None
-          }
-        }
-      }
-    }
-
-    drillDown(sentence_occurrences, 0, List[List[Word]]())
   }
 }
