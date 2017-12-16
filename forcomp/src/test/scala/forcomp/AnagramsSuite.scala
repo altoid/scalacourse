@@ -39,7 +39,7 @@ class AnagramsSuite extends FunSuite  {
   test("word anagrams: player") {
     assert(wordAnagrams("player").toSet === Set("parley", "pearly", "player", "replay"))
   }
-  
+
   test("subtract: lard - r") {
     val lard = List(('a', 1), ('d', 1), ('l', 1), ('r', 1))
     val r = List(('r', 1))
@@ -47,6 +47,12 @@ class AnagramsSuite extends FunSuite  {
     assert(subtract(lard, r) === lad)
   }
 
+  test("subtract word - word") {
+    // subtracting an occurrence list from itself should give the empty list.
+    val lard = List(('a', 1), ('d', 1), ('l', 1), ('r', 1))
+    val result = subtract(lard, lard)
+    assert(result === List())
+  }
 
   test("combinations: []") {
     assert(combinations(Nil) === List(Nil))
@@ -108,6 +114,15 @@ class AnagramsSuite extends FunSuite  {
     assert(werdz.head.size != 0)
   }
 
+  test("no such word") {
+    val findme = "zyzzva"  // not in the dictionary
+    val occ = wordOccurrences(findme)
+    intercept[NoSuchElementException] {
+      val r = dictionaryByOccurrences(occ)
+      println(r)
+    }
+  }
+
   ignore("futz") {
     /**
       * Given a list of positive ints <reference>,
@@ -149,5 +164,35 @@ class AnagramsSuite extends FunSuite  {
 
     println(result)
     println(result.length)
+  }
+
+  test("futz more") {
+    /**
+      * take each subset
+      * obtain words for it
+      * for each word, subtract from the sentence occurrences
+      * do it again
+      * keep going until the subtraction gives us an empty list --> win
+      * or until we get a subset that doesn't correspond to any word --> lose
+      */
+
+    val s: Sentence = List("linux", "rulez")
+
+    val occ = sentenceOccurrences(s)
+    val subsets = combinations(occ)
+
+    def drillDown(subsets: List[Occurrences]) = {
+      for (subset <- subsets) {
+        try {
+          val d = dictionaryByOccurrences(subset)
+          println(d)
+        }
+        catch {
+          case what => None
+        }
+      }
+    }
+
+    drillDown(subsets)
   }
 }
