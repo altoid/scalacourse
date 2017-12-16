@@ -153,7 +153,7 @@ object Anagrams {
     }
 
     // compute a - b
-    (b.toMap foldLeft a.toMap)(helper).toList
+    (b.toMap foldLeft a.toMap)(helper).toList.sortBy(p => p._1)
   }
 
 

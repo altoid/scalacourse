@@ -193,7 +193,7 @@ class AnagramsSuite extends FunSuite  {
           drillDown(remainder, level + 1)
         }
         catch {
-          case what: NoSuchElementException => None
+          case what: NoSuchElementException => None // println(" " * 4 * level + subset + " didn't work")
         }
       }
     }
