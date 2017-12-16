@@ -180,17 +180,17 @@ class AnagramsSuite extends FunSuite  {
 
     val sentence_occurrences = sentenceOccurrences(s)
 
-    def drillDown(sentence_occurrences: Occurrences, level: Int): Unit = {
-      if (sentence_occurrences.isEmpty) println(" " * 4 * level + "win!")
+    def drillDown(sentence_occurrences: Occurrences, level: Int, acc: List[List[Word]]): Unit = {
+      if (sentence_occurrences.isEmpty) println(acc)
       val subsets = combinations(sentence_occurrences)
       for (subset <- subsets) {
         try {
           val d = dictionaryByOccurrences(subset)
-          println(" " * 4 * level + sentence_occurrences)
-          println(" " * 4 * level + d)
+//          println(" " * 4 * level + sentence_occurrences)
+//          println(" " * 4 * level + d)
 
           val remainder = subtract(sentence_occurrences, subset)
-          drillDown(remainder, level + 1)
+          drillDown(remainder, level + 1, d :: acc)
         }
         catch {
           case what: NoSuchElementException => None // println(" " * 4 * level + subset + " didn't work")
@@ -198,6 +198,6 @@ class AnagramsSuite extends FunSuite  {
       }
     }
 
-    drillDown(sentence_occurrences, 0)
+    drillDown(sentence_occurrences, 0, List[List[Word]]())
   }
 }
